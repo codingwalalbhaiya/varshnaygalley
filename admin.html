@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varshnay Gallery - Admin Panel</title>
+    
+        <!-- <link rel="stylesheet" href="https://cloudflare.com">-->
+    
+    
+    
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background-color: rgb(255, 169, 119);
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .admin-box {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 480px;
+        }
+        h2 { text-align: center; color: #222222; margin: 0 0 20px 0; }
+        h2 span { color: rgb(255, 169, 119); }
+        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 0.85rem; font-weight: bold; color: #444444; }
+        input, select, textarea {
+            width: 100%;
+            border: 1px solid #dddddd;
+            border-radius: 6px;
+            padding: 10px;
+            outline: none;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        input { height: 40px; }
+        textarea { height: 75px; resize: vertical; }
+        input:focus, select:focus, textarea:focus { border-color: rgb(255, 169, 119); }
+        
+        .upload-area {
+            border: 2px dashed rgb(255, 169, 119);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #fff8f5;
+            transition: background 0.2s;
+        }
+        .upload-area:hover { background: #fff1eb; }
+        .upload-area i { font-size: 2rem; color: rgb(255, 169, 119); margin-bottom: 8px; }
+        .upload-area p { margin: 0; font-size: 0.85rem; color: #666666; }
+        
+        #img-preview {
+            max-width: 100%;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: none;
+            border: 1px solid #ddd;
+        }
+        button {
+            width: 100%;
+            height: 42px;
+            background-color: rgb(255, 169, 119);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: rgb(240, 145, 90); }
+    </style>
+</head>
+<body>
+
+<div class="admin-box">
+    <h2>Owner <span>Admin Panel</span></h2>
+    
+    <form id="uploadForm" onsubmit="submitToFirestore(event)">
+        <div class="form-group">
+            <label>Product Name</label>
+            <input type="text" id="pName" placeholder="e.g., Custom Photo Mug" required>
+        </div>
+
+        <div class="form-group">
+            <label>Price (Rs.)</label>
+            <input type="number" id="pPrice" placeholder="e.g., 399" required>
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <select id="pCategory">
+                <option value="sublimation">Sublimation</option>
+                <option value="painting-sketch">Painting Sketch</option>
+                <option value="resin">Resin</option>
+                <option value="painting">Painting</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Return</label>
+                        <select id="pReturn">
+                <option value="100% Return">100% Return</option>
+                <option value="No Return">No Return Policy</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Description (Optional)</label>
+            <textarea id="pDesc" placeholder="Write a short description about the gift..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Product Image</label>
+            <div class="upload-area">
+                <i class="fa fa-cloud-upload"></i>
+                <p id="upload-msg">Click to upload photo from Gallery</p>
+               <input type="file" id="imageFile" accept="image/*" style="display: none;">
+
+            </div>
+            <img id="img-preview" alt="Preview Image">
+        </div>
+
+        <button type="button" id="submitBtn">Upload to Website</button>
+    </form>
+</div>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+   import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyB0HdY9mQuigeKYOAC4ZEDmTKPJ-s2BOQw",
+    authDomain: "varshnay-gallery-db177.firebaseapp.com",
+    databaseURL: "https://varshnay-gallery-db177-default-rtdb.firebaseio.com",
+    projectId: "varshnay-gallery-db177",
+    storageBucket: "varshnay-gallery-db177.firebasestorage.app",
+    messagingSenderId: "974095088702",
+    appId: "1:974095088702:web:ed0e0ef3d7eaa93d71e56f"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app)
+
+
+
+
+
+  window.selectedFile = [];
+   
+  // 1. Upload area par click hone par gallery kholein
+const uploadArea = document.querySelector('.upload-area');
+if (uploadArea) {
+    uploadArea.addEventListener('click', function() {
+        document.getElementById('imageFile').click();
+    });
+}
+
+// 2. File select hone par sirf preview dikhane ka function
+const imageFileInput = document.getElementById('imageFile');
+if (imageFileInput) {
+    imageFileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Pehli photo select karein
+        const previewImg = document.getElementById('img-preview');
+        const uploadMsg = document.getElementById('upload-msg');
+
+        // Agar user ne photo select nahi ki ya cancel kar diya toh ruk jayein
+        if (!file) return; 
+
+        const reader = new FileReader();
+        
+        // Jab file read ho jaye, toh use preview tag me set karein
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;  // Photo ka data src me daala
+            previewImg.style.display = 'block'; // Image ko screen par dikhaya
+            if (uploadMsg) {
+                uploadMsg.innerText = "Photo selected successfully!";
+            }
+        };
+        
+        reader.readAsDataURL(file); // File ko read karna shuru karein
+    });
+}
+
+// --- FORM UPLOAD TRIGGERS ---
+
+const submitBtn = document.getElementById('submitBtn');
+if (submitBtn) {
+    submitBtn.addEventListener('click', async function(event) {
+        const file = imageFileInput.files[0];
+        if (!file)
+        return alert ("please fill form");
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+
+const name = document.getElementById("pName").value;
+const price = document.getElementById("pPrice").value;
+const category = document.getElementById("pCategory").value;
+const preturn = document.getElementById("pReturn").value;
+const desc = document.getElementById("pDesc").value;
+
+
+        push(ref(db,"varshnay gallery"),{
+            photo: reader.result,
+            name: name,
+            price: price,
+            category: category,
+            return: preturn,
+            desc: desc,
+           // time: new Date().toString()
+        }).then(() => {
+            alert("Data Save Successfully!")
+        })
+
+    }
+        
+    });
+}
+
+
+
+</script>
+
+
+</body>
+</html>

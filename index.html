@@ -1,246 +1,264 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Varshnay Gallery - Admin Panel</title>
-    
-        <!-- <link rel="stylesheet" href="https://cloudflare.com">-->
-    
-    
-    
-    <style>
-        * { box-sizing: border-box; }
-        body {
-            background-color: rgb(255, 169, 119);
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .admin-box {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 480px;
-        }
-        h2 { text-align: center; color: #222222; margin: 0 0 20px 0; }
-        h2 span { color: rgb(255, 169, 119); }
-        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
-        label { font-size: 0.85rem; font-weight: bold; color: #444444; }
-        input, select, textarea {
-            width: 100%;
-            border: 1px solid #dddddd;
-            border-radius: 6px;
-            padding: 10px;
-            outline: none;
-            font-size: 0.9rem;
-            font-family: sans-serif;
-        }
-        input { height: 40px; }
-        textarea { height: 75px; resize: vertical; }
-        input:focus, select:focus, textarea:focus { border-color: rgb(255, 169, 119); }
-        
-        .upload-area {
-            border: 2px dashed rgb(255, 169, 119);
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            background: #fff8f5;
-            transition: background 0.2s;
-        }
-        .upload-area:hover { background: #fff1eb; }
-        .upload-area i { font-size: 2rem; color: rgb(255, 169, 119); margin-bottom: 8px; }
-        .upload-area p { margin: 0; font-size: 0.85rem; color: #666666; }
-        
-        #img-preview {
-            max-width: 100%;
-            height: 120px;
-            object-fit: contain;
-            border-radius: 6px;
-            margin-top: 10px;
-            display: none;
-            border: 1px solid #ddd;
-        }
-        button {
-            width: 100%;
-            height: 42px;
-            background-color: rgb(255, 169, 119);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: background 0.2s;
-        }
-        button:hover { background-color: rgb(240, 145, 90); }
-    </style>
+<html>
+    <head>
+<title> Pratishtha Creations</title>
+<script src="https://kit.fontawesome.com/f27020e39a.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
+<div  id="main-container">
+    <div id="header">
+        <div id="logo-area">
+            <img src="prityush.jpg" alt="prityush">
+<p>memories gift</p>
 
-<div class="admin-box">
-    <h2>Owner <span>Admin Panel</span></h2>
-    
-    <form id="uploadForm" onsubmit="submitToFirestore(event)">
-        <div class="form-group">
-            <label>Product Name</label>
-            <input type="text" id="pName" placeholder="e.g., Custom Photo Mug" required>
         </div>
-
-        <div class="form-group">
-            <label>Price (Rs.)</label>
-            <input type="number" id="pPrice" placeholder="e.g., 399" required>
-        </div>
-
-        <div class="form-group">
-            <label>Category</label>
-            <select id="pCategory">
-                <option value="sublimation">Sublimation</option>
-                <option value="painting-sketch">Painting Sketch</option>
-                <option value="resin">Resin</option>
-                <option value="painting">Painting</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>Return</label>
-                        <select id="pReturn">
-                <option value="100% Return">100% Return</option>
-                <option value="No Return">No Return Policy</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>Description (Optional)</label>
-            <textarea id="pDesc" placeholder="Write a short description about the gift..."></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label>Product Image</label>
-            <div class="upload-area">
-                <i class="fa fa-cloud-upload"></i>
-                <p id="upload-msg">Click to upload photo from Gallery</p>
-               <input type="file" id="imageFile" accept="image/*" style="display: none;">
-
-            </div>
-            <img id="img-preview" alt="Preview Image">
-        </div>
-
-        <button type="button" id="submitBtn">Upload to Website</button>
-    </form>
+<div id="search-box">
+    <input type="search" id="search" placeholder="Search for gifts,franes,mugs...."></input> 
+<i class="fa fa-search" id="glass" aria-hidden="true"></i>
 </div>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-   import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyB0HdY9mQuigeKYOAC4ZEDmTKPJ-s2BOQw",
-    authDomain: "varshnay-gallery-db177.firebaseapp.com",
-    databaseURL: "https://varshnay-gallery-db177-default-rtdb.firebaseio.com",
-    projectId: "varshnay-gallery-db177",
-    storageBucket: "varshnay-gallery-db177.firebasestorage.app",
-    messagingSenderId: "974095088702",
-    appId: "1:974095088702:web:ed0e0ef3d7eaa93d71e56f"
-  };
+<nav>
+    <ul>
+    <li><a href="">Home</a></li>
+    <li><a href="shop.html" >Shop</a></li>
+    <!-- <li><a href="">Combo Offers</a></li> -->
+    <li><a href="#Customise">Customise</a></li>
+    <li><a href="" id="acb">About Us</a></li>
+    <li><a href="#footer">Contact Us</a></li>
+    </ul>
+    
+</nav>
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app)
+    </div>
+<div id="banner">
+    <img src="34.jpg" alt="header" id="slider">
+<img src="32.jpg" alt="header" id="slider">
+<img src="31.jpg" alt="header" id="slider">
 
+</div>
 
 
+    <div class="features-bar">
+    <div class="feature-item">
+        <i class="fa fa-truck" aria-hidden="true"></i>
+        <div class="feature-text">
+            <span>Free Shipping</span>
+            <h6>ON all orders above RS 999</h6>
+        </div>
+    </div>
+    <div class="feature-item">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+        <div class="feature-text">
+            <span>Easy Returns</span>
+            <h6>7 days return policy</h6>
+        </div>
+    </div>
+    <div class="feature-item">
+        <i class="fa fa-shield" aria-hidden="true"></i>
+        <div class="feature-text">
+            <span>Secure Pay</span>
+            <h6>100% secure checkout</h6>
+        </div>
+    </div>
+    <div class="feature-item">
+        <i class="fa fa-bolt" aria-hidden="true"></i>
+        <div class="feature-text">
+            <span>Express Delivery</span>
+            <h6>Fast delivery at your door</h6>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div id="banner2">
+    <div id="categoryname">
+    <h2>Painting Sketch</h2>
+  
+</div>
+<div id="painting-sketch">
+
+</div>
+    
+</div>
 
 
-  window.selectedFile = [];
+<div id="banner3">
+    <div id="categoryname">
+    <h2>Sublimation</h2>
+    
+</div>
+<div id="sublimation">
+    
+</div >
+    
+</div>
+
+
+<div id="banner4">
+     <div id="categoryname">
+   <h2>Resin</h2>
    
-  // 1. Upload area par click hone par gallery kholein
-const uploadArea = document.querySelector('.upload-area');
-if (uploadArea) {
-    uploadArea.addEventListener('click', function() {
-        document.getElementById('imageFile').click();
-    });
-}
+</div>
+<div  id="resin">
+ 
+</div>
+   
+</div>
 
-// 2. File select hone par sirf preview dikhane ka function
-const imageFileInput = document.getElementById('imageFile');
-if (imageFileInput) {
-    imageFileInput.addEventListener('change', function(event) {
-        const file = event.target.files[0]; // Pehli photo select karein
-        const previewImg = document.getElementById('img-preview');
-        const uploadMsg = document.getElementById('upload-msg');
 
-        // Agar user ne photo select nahi ki ya cancel kar diya toh ruk jayein
-        if (!file) return; 
+<div id="banner5">
+    <div id="categoryname">
+  <h2>Painting</h2>
+    
+</div>
+<div id="painting">
 
-        const reader = new FileReader();
+</div>   
+</div>
+
+<div id="Customise">
+    
+    <h4>Customise Your Gift - <span class="highlight">It's Easy!</span></h4>
+
+    <div class="cards-container">
+
+
+        <div id="card1" class="step-card">
+            <span class="step-num">1 Choose Product</span>
+            <h6>Select the product you want</h6>
+            <div id="product" class="img-grid">
+               
+            </div>
+            <div class="preview-box">
+                 <img src="" alt="Preview" id="preview-img">
+
+            </div>
+            
+            
+            
+        </div>
+
         
-        // Jab file read ho jaye, toh use preview tag me set karein
-        reader.onload = function(e) {
-            previewImg.src = e.target.result;  // Photo ka data src me daala
-            previewImg.style.display = 'block'; // Image ko screen par dikhaya
-            if (uploadMsg) {
-                uploadMsg.innerText = "Photo selected successfully!";
-            }
-        };
+        <div id="card2" class="step-card">
+            <span class="step-num">2 Upload Photo</span>
+            <h6>Upload your photo</h6>
+            <div class="upload-box">
+                <input type="file" id="custid" accept="image/*" style="display: none;">
+                <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                <p>from gallery</p>
+            </div>
+            <div class="preview-box" id="previewha">
+                <img src="" alt="Preview" id="previewimg">
+            </div>
+        </div>
+
+    
+        <div id="card3" class="step-card">
+            <span class="step-num">3 Add Details</span>
+            <h6>Add name, text or message</h6>
+            
+            <label>Name/text</label>
+            <input type="text" placeholder="rahul with priya" id="love">
+            
+            <label>Message (Optional)</label>
+            <input type="text" placeholder="Together Forever" id="message">
+            
+            <label>Special instruction (Optional)</label>
+            <input type="text" placeholder="write your instruction" id="instruction">
+        </div>
+
+<!--         
+        <div id="card4" class="step-card">
+            <span class="step-num">4 Choose Style</span>
+            <h6>Select size, color</h6>
+
+            <label>color</label>
+            
+            <select>
+                <option>black</option>
+                <option>gray</option>
+                <option>selati</option>
+            </select>
+            
+            <label>frame Type</label>
+            <div class="img-grid">
+                <img src="11.jpg" alt="f1">
+                <img src="21.jpg" alt="f2">
+                <img src="23.jpg" alt="f3">
+            </div>
+        </div> -->
+
         
-        reader.readAsDataURL(file); // File ko read karna shuru karein
-    });
-}
+        <div id="card5" class="step-card">
+            <span class="step-num">4 Place Order</span>
+            <h6>Review & place your order</h6>
+            
+            <label>Preview</label>
+            <div class="preview-box" id="review">
+                
+            </div>
+            <button type="submit" id="btnk">Submit</button>
+        </div>
 
-// --- FORM UPLOAD TRIGGERS ---
+    </div>
+</div>
 
-const submitBtn = document.getElementById('submitBtn');
-if (submitBtn) {
-    submitBtn.addEventListener('click', async function(event) {
-        const file = imageFileInput.files[0];
-        if (!file)
-        return alert ("please fill form");
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload = () => {
-
-const name = document.getElementById("pName").value;
-const price = document.getElementById("pPrice").value;
-const category = document.getElementById("pCategory").value;
-const preturn = document.getElementById("pReturn").value;
-const desc = document.getElementById("pDesc").value;
+</div>
 
 
-        push(ref(db,"varshnay gallery"),{
-            photo: reader.result,
-            name: name,
-            price: price,
-            category: category,
-            return: preturn,
-            desc: desc,
-           // time: new Date().toString()
-        }).then(() => {
-            alert("Data Save Successfully!")
-        })
-
-    }
+<footer id="footer">
+    <div class="footer-container">
         
-    });
-}
+        
+        <div class="footer-column about-us">
+            <h3> Pratishtha Creations</h3>
+            <p>We create beautiful customised gifts, frames, mugs, and sketches to make your memories stay forever. Unique gifts for your unique someone.</p>
+            <div class="social-icons">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="#"><i class="fa fa-whatsapp"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+            </div>
+        </div>
+
+        
+        <div class="footer-column links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="shop.html" >Shop</a></li>
+                <!-- <li><a href="#">Combo Offers</a></li> -->
+                <li><a href="#Customise">Customise Your Gift</a></li>
+                <li><a href="#" id="xyz">About Us</a></li>
+            </ul>
+        </div>
+
+        
+        <div class="footer-column contact-info">
+   <h3>Contact Us</h3>
+            <p><i class="fa fa-map-marker"></i>Pratishtha Photo Point, Purani Mandi<br>&nbsp; &nbsp;Anupshahr, Uttar Pradesh</p>
+            <p><i class="fa fa-phone"></i> +91 9058116902</p>
+            <p><i class="fa fa-envelope"></i> info@PratishthaCreations.com</p>
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+        <p>&copy; 2026  Pratishtha Creations. All Rights Reserved | Designed with <i class="fa fa-heart"></i></p>
+        <p class="developer-info">Developed by <a href="your-portfolio-link.html" target="_blank">Your Name</a></p>
+    </div>
+</footer>
 
 
 
-</script>
-
+   <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
+<script src="index.js" type="module"></script>
 
 </body>
 </html>
