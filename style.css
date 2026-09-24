@@ -211,7 +211,7 @@ gap: 20px;
     margin: 0px;
     width: 100%;
     height:200px;
-    background:rgba(255, 255, 0, 0.74);
+    /* background:rgba(255, 255, 0, 0.74); */
     display: flex;
   align-items: center;
   justify-content: center;
@@ -1016,5 +1016,10 @@ font-weight: bold;
   .footer-column ul li a:hover {
     padding-left: 0; 
   }
+    
+#painting-sketch img:nth-child(n+1), #sublimation img:nth-child(n+1), #resin img:nth-child(n+1), #painting img:nth-child(n+1) {
+  display: none;
+    align-item:center;
+}
 }
 
