@@ -1017,7 +1017,7 @@ font-weight: bold;
     padding-left: 0; 
   }
     
-#painting-sketch img:nth-child(n+2), #sublimation img:nth-child(n+2), #resin img:nth-child(n+2), #painting img:nth-child(n+2) {
+#painting-sketch img:nth-child(n+3), #sublimation img:nth-child(n+3), #resin img:nth-child(n+3), #painting img:nth-child(n+3) {
   display: none;
     
 }
