@@ -146,7 +146,7 @@ Personalised Gifts • Art • Printing • Memories
 
 
 window.openWhatsApp = function(name, price) {
-    const myNumber = "91xxxxxxxxxx";
+    const myNumber = "919058116902";
     const message = `Hello, I want to buy this item:\n\n*Name:* ${name}\n*Price:* ₹${price}`;
    let iurl = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
     window.open(iurl, "-blank");
@@ -671,7 +671,7 @@ let message = document.getElementById("message").value;
 let instruction = document.getElementById("instruction").value;
 
 let finalText = `Love:${love}%0AMessage:${message}%0AInstruction:${instruction}%AItem:${clickedImgSrc}%AmyFile? myFile.name`;
-let myNumber = "91xxxxxxxxxx";
+let myNumber = "919058116902";
 let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
 
 window.open(url, "-blank");
