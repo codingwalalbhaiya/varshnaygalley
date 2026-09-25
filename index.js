@@ -627,11 +627,12 @@ function base64ToFile(base64, fileName){
 
 async function sendBothPhotos(){
   let productFile = base64ToFile(clickedImgSrc, "product.png");
-  let fileToShare = [productFile, clientFile];
-
+  let fileToShare = [productFile, clientFile];     
+}  
      
-}     
+
 if (navigation.canShare && navigator.canShare({files:[file]})){
+  setTimeout(async ()=>{
     try{
       await navigator.share({
         files: [file],
@@ -639,7 +640,9 @@ if (navigation.canShare && navigator.canShare({files:[file]})){
         title: "Order Image"
       })
     } catch (err) {}
+  },500);
 }
+
     }
   });
 }
