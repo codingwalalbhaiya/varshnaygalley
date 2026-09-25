@@ -615,17 +615,17 @@ if (uploadArea) {
     }
       reader.readAsDataURL(file);
       
-if (navigation.canShare && navigator.canShare({files:[file]})){
-  setTimeout(async ()=>{
-    try{
-      await navigator.share({
-        files: [file],
-        text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
-        title: "Order Image"
-      })
-    } catch (err) {}
-  },500);
-}
+// if (navigation.canShare && navigator.canShare({files:[file]})){
+//   setTimeout(async ()=>{
+//     try{
+//       await navigator.share({
+//         files: [file],
+//         text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
+//         title: "Order Image"
+//       })
+//     } catch (err) {}
+//   },500);
+// }
 
 
 function base64ToFile(base64, fileName){
