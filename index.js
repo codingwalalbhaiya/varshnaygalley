@@ -590,10 +590,12 @@ product.appendChild(img);
  show("sublimation")
 
 
+
 const uploadArea = document.querySelector(".upload-box");
 const previewha = document.getElementById("previewha");
 const custid = document.getElementById("custid");
 let myFile = null;
+
 
 if (uploadArea) {
     uploadArea.addEventListener('click', function() {
@@ -627,8 +629,10 @@ function base64ToFile(base64, fileName){
 
 async function sendBothPhotos(){
   let productFile = base64ToFile(clickedImgSrc, "product.png");
-  let fileToShare = [productFile, clientFile];     
-}  
+  let fileToShare = [productFile, clientFile];
+  
+}
+
      
 
 if (navigation.canShare && navigator.canShare({files:[file]})){
