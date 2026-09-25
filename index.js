@@ -534,240 +534,128 @@ window.addEventListener('click', function(event) {
 
 
 
-// let choose = document.getElementById("Choose-product");
-// let bn = document.getElementById("banner7");
+let choose = document.getElementById("Choose-product");
+let bn = document.getElementById("banner7");
 
-// choose.onclick = function(){
-//   if(window.location.href.includes("shop.html")){
-//     bn.scrollIntoView({behavior:"smooth",block:"start"});
-//   }else{
-//     window.location.href ="shop.html#banner7";
-//   }
-// }
+choose.onclick = function(){
+  if(window.location.href.includes("shop.html")){
+    bn.scrollIntoView({behavior:"smooth",block:"start"});
+  }else{
+    window.location.href ="shop.html#banner7";
+  }
+}
 
-// function showProduct(product){
-//   let container = document.getElementById("banner7")
-//   container.innerHTML = "";
+function showProduct(product){
+  let container = document.getElementById("banner7")
+  container.innerHTML = "";
 
-//   product.forEach((p) =>{
-//     let card = document.createElement("div");
-//     card.className = "products-card";
-//     card.innerHTML = '<h4>${p.name || p.title}</4>';
-//     container.appendChild(card);
-//   });
+  product.forEach((p) =>{
+    let card = document.createElement("div");
+    card.className = "products-card";
+    card.innerHTML = '<h4>${p.name || p.title}</4>';
+    container.appendChild(card);
+  });
 
-//   if(window.location.hash === "#banner7"){
-//     setTimeout(() => {
-//       container.scrollIntoView({behavior: "smooth",block: "start"});
-//     }, 500);
-//   }
-// }
-
-
+  if(window.location.hash === "#banner7"){
+    setTimeout(() => {
+      container.scrollIntoView({behavior: "smooth",block: "start"});
+    }, 500);
+  }
+}
 
 
-// function show(categoryName){
-
-// onValue(ref(db, "varshnay gallery" ), (snapshot)=>{
-//    let product = document.getElementById("product");
-//    product.innerHTML = "";
-//    let data = snapshot.val();
-
-//    for (let key in data){
-//     let item = data[key];
-
-//     if(item.category === "sublimation"){
-//       let img = document.createElement("img");
-//       img.src = item.photo;     
-
-// product.appendChild(img);
-//     }
-//   }
-
-// })
-// }
-
-//  show("sublimation")
 
 
-// const uploadArea = document.querySelector(".upload-box");
-// const previewha = document.getElementById("previewha");
-// const custid = document.getElementById("custid");
-// let myFile = null;
+function show(categoryName){
 
-// if (uploadArea) {
-//     uploadArea.addEventListener('click', function() {
-//       custid.click();
-//     });
+onValue(ref(db, "varshnay gallery" ), (snapshot)=>{
+   let product = document.getElementById("product");
+   product.innerHTML = "";
+   let data = snapshot.val();
 
-//   custid.addEventListener("change", (e)=>{
-//     let file = e.target.files[0];
-//     if(file){
-//       myFile = file;
+   for (let key in data){
+    let item = data[key];
 
-//       let reader = new FileReader();
-//       reader.onload = function(event){
-//      let previewImg = previewha.querySelector("img");
-//        if (previewImg) {
-//         previewImg.src = event.target.result;
-//         previewha.style.display = "block";
-//       }
-//     }
-//       reader.readAsDataURL(file);
+    if(item.category === "sublimation"){
+      let img = document.createElement("img");
+      img.src = item.photo;     
 
-// function base64ToFile(base64, fileName){
-//   let arr = base64.split(',');
-//   let mime = arr[0].match(/:(.*?);/)[1];
-//   let bstr = atob(arr[1]);
-//   let n = bstr.length;
-//   let u8arr = new Uint8Array(n);
-//   while(n--){ u8arr[n] = bstr.charCodeAt(n);}
-//   return new File([u8arr], fileName, {type:mime});
-// }
-
-// async function sendBothPhotos(){
-//   let productFile = base64ToFile(clickedImgSrc, "product.png");
-//   let fileToShare = [productFile, clientFile];
-  
-// }     
-// if (navigation.canShare && navigator.canShare({files:[file]})){
-//     try{
-//       await navigator.share({
-//         files: [file],
-//         text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
-//         title: "Order Image"
-//       })
-//     } catch (err) {}
-// }
-//     }
-//   });
-// }
-// let imggrid = document.querySelector(".img-grid");
-// let previewbox = document.querySelector(".preview-box");
-// let clickedImgSrc = "";
-// imggrid.onclick = function(e) {
-//   if (e.target.tagName === 'IMG') {
-//     clickedImgSrc = e.target.src;
-//     // console.log("Mil gaya target image link:", clickedImgSrc);
-//     let previewImg = previewbox.querySelector("img");
-//     if (previewImg) { 
-//       previewImg.src = clickedImgSrc;
-//       previewbox.style.display = "block";
-//     }
-//   }
-// }
- function show(categoryName) { 
-    onValue(ref(db, "varshnay gallery"), (snapshot) => { 
-        let product = document.getElementById("product"); 
-        product.innerHTML = ""; 
-        let data = snapshot.val(); 
-        for (let key in data) { 
-            let item = data[key]; 
-            if (item.category === categoryName) { 
-                let img = document.createElement("img"); 
-                img.src = item.photo; 
-                product.appendChild(img); 
-            } 
-        } 
-    }); 
-} 
-show("sublimation");
-
-const uploadArea = document.querySelector(".upload-box"); 
-const previewha = document.getElementById("previewha"); 
-const custid = document.getElementById("custid"); 
-let myFile = null; // User ki uploaded file save hogi
-let clickedImgSrc = ""; // Firebase product ka image URL save hoga
-
-// 1. Firebase URL ko Real File me convert karne ka function
-async function urlToFile(url, fileName) {
-    try {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return new File([blob], fileName, { type: blob.type });
-    } catch (error) {
-        console.error("Image convert karne me dikkat aayi:", error);
-        return null;
+product.appendChild(img);
     }
+  }
+
+})
 }
 
-if (uploadArea) { 
-    uploadArea.addEventListener('click', function() { 
-        custid.click(); 
-    }); 
+ show("sublimation")
 
-    // 2. File select hone par dono photos ko real file bana kar share karne ka logic
-    custid.addEventListener("change", async (e) => { 
-        let file = e.target.files[0]; 
-        if (file) { 
-            myFile = file; 
-            
-            // Image preview dikhane ke liye
-            let reader = new FileReader(); 
-            reader.onload = function(event) { 
-                let previewImg = previewha.querySelector("img"); 
-                if (previewImg) { 
-                    previewImg.src = event.target.result; 
-                    previewha.style.display = "block"; 
-                } 
-            };
-            reader.readAsDataURL(file); 
 
-            // Agar user ne product select kiya hua hai tabhi share chalega
-            if (clickedImgSrc) {
-                console.log("Dono photos process ho rahi hain...");
-                
-                // Firebase URL ko real photo file me badlein
-                let productFile = await urlToFile(clickedImgSrc, "product_design.png");
-                
-                if (productFile) {
-                    let filesToShare = [productFile, myFile]; // Dono real photos ka array
+const uploadArea = document.querySelector(".upload-box");
+const previewha = document.getElementById("previewha");
+const custid = document.getElementById("custid");
+let myFile = null;
 
-                    // Check karein ki browser file sharing support karta hai ya nahi
-                    if (navigator.canShare && navigator.canShare({ files: filesToShare })) { 
-                        try { 
-                            await navigator.share({ 
-                                files: filesToShare, 
-                                title: "New Custom Order", 
-                                text: "Sir, maine yeh product select kiya hai aur meri photo lagani hai." 
-                            }); 
-                            console.log("Successfully shared!");
-                        } catch (err) { 
-                            console.error("Share cancel ya fail hua:", err); 
-                        } 
-                    } else {
-                        alert("Aapka browser ek sath kai photos share karna support nahi karta.");
-                    }
-                }
-            } else {
-                alert("Pehle gallery se koi ek product image select karein!");
-            }
-        } 
-    }); 
-} 
+if (uploadArea) {
+    uploadArea.addEventListener('click', function() {
+      custid.click();
+    });
 
-// 3. Grid image selection logic
-let imggrid = document.querySelector(".img-grid"); 
-let previewbox = document.querySelector(".preview-box"); 
+  custid.addEventListener("change", (e)=>{
+    let file = e.target.files[0];
+    if(file){
+      myFile = file;
 
-if (imggrid) {
-    imggrid.onclick = function(e) { 
-        if (e.target.tagName === 'IMG') { 
-            clickedImgSrc = e.target.src; // Isme Firebase ka image link save ho jayega
-            let previewImg = previewbox.querySelector("img"); 
-            if (previewImg) { 
-                previewImg.src = clickedImgSrc; 
-                previewbox.style.display = "block"; 
-            } 
-        } 
-    };
+      let reader = new FileReader();
+      reader.onload = function(event){
+     let previewImg = previewha.querySelector("img");
+       if (previewImg) {
+        previewImg.src = event.target.result;
+        previewha.style.display = "block";
+      }
+    }
+      reader.readAsDataURL(file);
+
+function base64ToFile(base64, fileName){
+  let arr = base64.split(',');
+  let mime = arr[0].match(/:(.*?);/)[1];
+  let bstr = atob(arr[1]);
+  let n = bstr.length;
+  let u8arr = new Uint8Array(n);
+  while(n--){ u8arr[n] = bstr.charCodeAt(n);}
+  return new File([u8arr], fileName, {type:mime});
 }
 
-
-
-
-
-//
+async function sendBothPhotos(){
+  let productFile = base64ToFile(clickedImgSrc, "product.png");
+  let fileToShare = [productFile, clientFile];
+  
+}     
+if (navigation.canShare && navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({
+        files: [file],
+        text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
+        title: "Order Image"
+      })
+    } catch (err) {}
+}
+    }
+  });
+}
+let imggrid = document.querySelector(".img-grid");
+let previewbox = document.querySelector(".preview-box");
+let clickedImgSrc = "";
+imggrid.onclick = function(e) {
+  if (e.target.tagName === 'IMG') {
+    clickedImgSrc = e.target.src;
+    // console.log("Mil gaya target image link:", clickedImgSrc);
+    let previewImg = previewbox.querySelector("img");
+    if (previewImg) { 
+      previewImg.src = clickedImgSrc;
+      previewbox.style.display = "block";
+    }
+  }
+}
 
 
 let btnk = document.getElementById("btnk");
