@@ -615,81 +615,34 @@ if (uploadArea) {
     }
       reader.readAsDataURL(file);
 
-// function base64ToFile(base64, fileName){
-//   let arr = base64.split(',');
-//   let mime = arr[0].match(/:(.*?);/)[1];
-//   let bstr = atob(arr[1]);
-//   let n = bstr.length;
-//   let u8arr = new Uint8Array(n);
-//   while(n--){ u8arr[n] = bstr.charCodeAt(n);}
-//   return new File([u8arr], fileName, {type:mime});
-// }
-
-// async function sendBothPhotos(){
-//   let productFile = base64ToFile(clickedImgSrc, "product.png");
-//   let fileToShare = [productFile, clientFile];
-
-
-async function convertLinkToRealImage(firebaseUrl, fileName) {
-    try {
-        const response = await fetch(firebaseUrl);
-        const blob = await response.blob();
-        return new File([blob], fileName, { type: blob.type });
-    } catch (error) {
-        console.error("Link se image banane me error aaya. Shayad CORS set nahi hai:", error);
-        return null;
-    }
+function base64ToFile(base64, fileName){
+  let arr = base64.split(',');
+  let mime = arr[0].match(/:(.*?);/)[1];
+  let bstr = atob(arr[1]);
+  let n = bstr.length;
+  let u8arr = new Uint8Array(n);
+  while(n--){ u8arr[n] = bstr.charCodeAt(n);}
+  return new File([u8arr], fileName, {type:mime});
 }
-custid.addEventListener("change", async (e) => { 
-    let file = e.target.files[0]; 
-    if (file) { 
-        myFile = file; 
-        let reader = new FileReader(); 
-        reader.onload = function(event) { 
-            let previewImg = previewha.querySelector("img"); 
-            if (previewImg) { previewImg.src = event.target.result; previewha.style.display = "block"; } 
-        };
-        reader.readAsDataURL(file); 
-        if (clickedImgSrc) {
-            console.log("Link ko image me convert kiya ja raha hai...");
-            let productRealFile = await convertLinkToRealImage(clickedImgSrc, "selected_product.png");
-            if (productRealFile) {
-                let totalFilesToShare = [productRealFile, myFile];
-                if (navigator.canShare && navigator.canShare({ files: totalFilesToShare })) { 
-                    try { 
-                        await navigator.share({ 
-                            files: totalFilesToShare, 
-                            title: "New Custom Order", 
-                            text: "Maine yeh design select kiya hai aur is par meri photo lagani hai." 
-                        }); 
-                        console.log("Dono photos successfully share ho gayi!");
-                    } catch (err) { 
-                        console.error("Sharing fail hui:", err); 
-                    } 
-                } else {
-                    alert("Aapka browser ek sath multiple files share karna support nahi karta.");
-                }
-            }
-        } else {
-            alert("Pehle gallery se koi product design select karein!");
-        }
-    } 
-});
+
+async function sendBothPhotos(){
+  let productFile = base64ToFile(clickedImgSrc, "product.png");
+  let fileToShare = [productFile, clientFile];
 
      
-// }     
-// if (navigation.canShare && navigator.canShare({files:[file]})){
-//     try{
-//       await navigator.share({
-//         files: [file],
-//         text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
-//         title: "Order Image"
-//       })
-//     } catch (err) {}
-// }
-//     }
-//   });
-// }
+}     
+if (navigation.canShare && navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({
+        files: [file],
+        text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
+        title: "Order Image"
+      })
+    } catch (err) {}
+}
+    }
+  });
+}
 let imggrid = document.querySelector(".img-grid");
 let previewbox = document.querySelector(".preview-box");
 let clickedImgSrc = "";
