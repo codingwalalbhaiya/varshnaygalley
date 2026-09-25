@@ -1,11 +1,11 @@
  
-  
+  // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
   import { getDatabase, ref, onValue, get} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
- 
+  // Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyB0HdY9mQuigeKYOAC4ZEDmTKPJ-s2BOQw",
     authDomain: "varshnay-gallery-db177.firebaseapp.com",
@@ -146,7 +146,7 @@ Personalised Gifts • Art • Printing • Memories
 
 
 window.openWhatsApp = function(name, price) {
-    const myNumber = "919058116902";
+    const myNumber = "91xxxxxxxxxx";
     const message = `Hello, I want to buy this item:\n\n*Name:* ${name}\n*Price:* ₹${price}`;
    let iurl = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
     window.open(iurl, "-blank");
@@ -534,34 +534,35 @@ window.addEventListener('click', function(event) {
 
 
 
-let choose = document.getElementById("Choose-product");
-let bn = document.getElementById("banner7");
+// let choose = document.getElementById("Choose-product");
+// let bn = document.getElementById("banner7");
 
-choose.onclick = function(){
-  if(window.location.href.includes("shop.html")){
-    bn.scrollIntoView({behavior:"smooth",block:"start"});
-  }else{
-    window.location.href ="shop.html#banner7";
-  }
-}
+// choose.onclick = function(){
+//   if(window.location.href.includes("shop.html")){
+//     bn.scrollIntoView({behavior:"smooth",block:"start"});
+//   }else{
+//     window.location.href ="shop.html#banner7";
+//   }
+// }
 
-function showProduct(product){
-  let container = document.getElementById("banner7")
-  container.innerHTML = "";
+// function showProduct(product){
+//   let container = document.getElementById("banner7")
+//   container.innerHTML = "";
 
-  product.forEach((p) =>{
-    let card = document.createElement("div");
-    card.className = "products-card";
-    card.innerHTML = '<h4>${p.name || p.title}</4>';
-    container.appendChild(card);
-  });
+//   product.forEach((p) =>{
+//     let card = document.createElement("div");
+//     card.className = "products-card";
+//     card.innerHTML = '<h4>${p.name || p.title}</4>';
+//     container.appendChild(card);
+//   });
 
-  if(window.location.hash === "#banner7"){
-    setTimeout(() => {
-      container.scrollIntoView({behavior: "smooth",block: "start"});
-    }, 500);
-  }
-}
+//   if(window.location.hash === "#banner7"){
+//     setTimeout(() => {
+//       container.scrollIntoView({behavior: "smooth",block: "start"});
+//     }, 500);
+//   }
+// }
+
 
 
 
@@ -614,7 +615,9 @@ if (uploadArea) {
       }
     }
       reader.readAsDataURL(file);
+      
 
+ 
 function base64ToFile(base64, fileName){
   let arr = base64.split(',');
   let mime = arr[0].match(/:(.*?);/)[1];
@@ -631,7 +634,60 @@ async function sendBothPhotos(){
   
 }
 
-     
+
+
+// async function convertLinkToRealImage(firebaseUrl, fileName) {
+//     try {
+//         const response = await fetch(firebaseUrl);
+//         const blob = await response.blob();
+//         return new File([blob], fileName, { type: blob.type });
+//     } catch (error) {
+//         console.error("Link se image banane me error aaya. Shayad CORS set nahi hai:", error);
+//         return null;
+//     }
+// }
+// custid.addEventListener("change", async (e) => { 
+//     let file = e.target.files[0]; 
+//     if (file) { 
+//         myFile = file; 
+//         let reader = new FileReader(); 
+//         reader.onload = function(event) { 
+//             let previewImg = previewha.querySelector("img"); 
+//             if (previewImg) { previewImg.src = event.target.result; previewha.style.display = "block"; } 
+//         };
+//         reader.readAsDataURL(file); 
+//         if (clickedImgSrc) {
+//             console.log("Link ko image me convert kiya ja raha hai...");
+//             let productRealFile = await convertLinkToRealImage(clickedImgSrc, "selected_product.png");
+//             if (productRealFile) {
+//                 let totalFilesToShare = [productRealFile, myFile];
+//                 if (navigator.canShare && navigator.canShare({ files: totalFilesToShare })) { 
+//                     try { 
+//                         await navigator.share({ 
+//                             files: totalFilesToShare, 
+//                             title: "New Custom Order", 
+//                             text: "Maine yeh design select kiya hai aur is par meri photo lagani hai." 
+//                         }); 
+//                         console.log("Dono photos successfully share ho gayi!");
+//                     } catch (err) { 
+//                         console.error("Sharing fail hui:", err); 
+//                     } 
+//                 } else {
+//                     alert("Aapka browser ek sath multiple files share karna support nahi karta.");
+//                 }
+//             }
+//         } else {
+//             alert("Pehle gallery se koi product design select karein!");
+//         }
+//     } 
+// });
+
+
+
+
+
+
+
 
 if (navigation.canShare && navigator.canShare({files:[file]})){
   setTimeout(async ()=>{
@@ -648,6 +704,9 @@ if (navigation.canShare && navigator.canShare({files:[file]})){
     }
   });
 }
+
+
+
 let imggrid = document.querySelector(".img-grid");
 let previewbox = document.querySelector(".preview-box");
 let clickedImgSrc = "";
