@@ -678,7 +678,7 @@ let love = document.getElementById("love").value;
 let message = document.getElementById("message").value;
 let instruction = document.getElementById("instruction").value;
 
-let finalText = `Love:${love}%0AMessage:${message}%0AInstruction:${instruction}%AItem:${clickedImgSrc}%AmyFile? myFile.name`;
+let finalText = `cUSTOMER:${love}/NMessage:${message}/NInstruction:${instruction}/NItem:${clickedImgSrc}/NmyFile? myFile.name:""`;
 let myNumber = "919058116902";
 let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
 
