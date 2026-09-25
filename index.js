@@ -617,6 +617,7 @@ if (uploadArea) {
       reader.readAsDataURL(file);
       
 
+
  
 function base64ToFile(base64, fileName){
   let arr = base64.split(',');
@@ -634,7 +635,6 @@ async function sendBothPhotos(){
   
 }
 
-
 if (navigation.canShare && navigator.canShare({files:[file]})){
   setTimeout(async ()=>{
     try{
@@ -650,6 +650,7 @@ if (navigation.canShare && navigator.canShare({files:[file]})){
     }
   });
 }
+
 
 
 
