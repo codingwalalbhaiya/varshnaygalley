@@ -565,7 +565,6 @@ function showProduct(product){
 
 
 
-
 function show(categoryName){
 
 onValue(ref(db, "varshnay gallery" ), (snapshot)=>{
@@ -588,7 +587,6 @@ product.appendChild(img);
 }
 
  show("sublimation")
-
 
 
 const uploadArea = document.querySelector(".upload-box");
@@ -666,6 +664,7 @@ imggrid.onclick = function(e) {
 }
 
 
+
 let btnk = document.getElementById("btnk");
 
 btnk.addEventListener("click",function(){
@@ -674,7 +673,7 @@ let message = document.getElementById("message").value;
 let instruction = document.getElementById("instruction").value;
 
 let finalText = `Love:${love}%0AMessage:${message}%0AInstruction:${instruction}%AItem:${clickedImgSrc}%AmyFile? myFile.name`;
-let myNumber = "919058116902";
+let myNumber = "91xxxxxxxxxx";
 let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
 
 window.open(url, "-blank");
