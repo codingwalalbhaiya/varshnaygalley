@@ -534,296 +534,153 @@ window.addEventListener('click', function(event) {
 
 
 
-// let choose = document.getElementById("Choose-product");
-// let bn = document.getElementById("banner7");
+let choose = document.getElementById("Choose-product");
+let bn = document.getElementById("banner7");
 
-// choose.onclick = function(){
-//   if(window.location.href.includes("shop.html")){
-//     bn.scrollIntoView({behavior:"smooth",block:"start"});
-//   }else{
-//     window.location.href ="shop.html#banner7";
-//   }
-// }
+choose.onclick = function(){
+  if(window.location.href.includes("shop.html")){
+    bn.scrollIntoView({behavior:"smooth",block:"start"});
+  }else{
+    window.location.href ="shop.html#banner7";
+  }
+}
 
-// function showProduct(product){
-//   let container = document.getElementById("banner7")
-//   container.innerHTML = "";
+function showProduct(product){
+  let container = document.getElementById("banner7")
+  container.innerHTML = "";
 
-//   product.forEach((p) =>{
-//     let card = document.createElement("div");
-//     card.className = "products-card";
-//     card.innerHTML = '<h4>${p.name || p.title}</4>';
-//     container.appendChild(card);
-//   });
+  product.forEach((p) =>{
+    let card = document.createElement("div");
+    card.className = "products-card";
+    card.innerHTML = '<h4>${p.name || p.title}</4>';
+    container.appendChild(card);
+  });
 
-//   if(window.location.hash === "#banner7"){
-//     setTimeout(() => {
-//       container.scrollIntoView({behavior: "smooth",block: "start"});
-//     }, 500);
-//   }
-// }
-
-
+  if(window.location.hash === "#banner7"){
+    setTimeout(() => {
+      container.scrollIntoView({behavior: "smooth",block: "start"});
+    }, 500);
+  }
+}
 
 
-// function show(categoryName){
-
-// onValue(ref(db, "varshnay gallery" ), (snapshot)=>{
-//    let product = document.getElementById("product");
-//    product.innerHTML = "";
-//    let data = snapshot.val();
-
-//    for (let key in data){
-//     let item = data[key];
-
-//     if(item.category === "sublimation"){
-//       let img = document.createElement("img");
-//       img.src = item.photo;     
-
-// product.appendChild(img);
-//     }
-//   }
-
-// })
-// }
-
-//  show("sublimation")
 
 
-// const uploadArea = document.querySelector(".upload-box");
-// const previewha = document.getElementById("previewha");
-// const custid = document.getElementById("custid");
-// let myFile = null;
+function show(categoryName){
+
+onValue(ref(db, "varshnay gallery" ), (snapshot)=>{
+   let product = document.getElementById("product");
+   product.innerHTML = "";
+   let data = snapshot.val();
+
+   for (let key in data){
+    let item = data[key];
+
+    if(item.category === "sublimation"){
+      let img = document.createElement("img");
+      img.src = item.photo;     
+
+product.appendChild(img);
+    }
+  }
+
+})
+}
+
+ show("sublimation")
 
 
-// if (uploadArea) {
-//     uploadArea.addEventListener('click', function() {
-//       custid.click();
-//     });
+const uploadArea = document.querySelector(".upload-box");
+const previewha = document.getElementById("previewha");
+const custid = document.getElementById("custid");
+let myFile = null;
 
-//   custid.addEventListener("change", (e)=>{
-//     let file = e.target.files[0];
-//     if(file){
-//       myFile = file;
 
-//       let reader = new FileReader();
-//       reader.onload = function(event){
-//      let previewImg = previewha.querySelector("img");
-//        if (previewImg) {
-//         previewImg.src = event.target.result;
-//         previewha.style.display = "block";
-//       }
-//     }
-//       reader.readAsDataURL(file);
+if (uploadArea) {
+    uploadArea.addEventListener('click', function() {
+      custid.click();
+    });
+
+  custid.addEventListener("change", (e)=>{
+    let file = e.target.files[0];
+    if(file){
+      myFile = file;
+
+      let reader = new FileReader();
+      reader.onload = function(event){
+     let previewImg = previewha.querySelector("img");
+       if (previewImg) {
+        previewImg.src = event.target.result;
+        previewha.style.display = "block";
+      }
+    }
+      reader.readAsDataURL(file);
       
 
 
  
-// function base64ToFile(base64, fileName){
-//   let arr = base64.split(',');
-//   let mime = arr[0].match(/:(.*?);/)[1];
-//   let bstr = atob(arr[1]);
-//   let n = bstr.length;
-//   let u8arr = new Uint8Array(n);
-//   while(n--){ u8arr[n] = bstr.charCodeAt(n);}
-//   return new File([u8arr], fileName, {type:mime});
-// }
-
-// async function sendBothPhotos(){
-//   let productFile = base64ToFile(clickedImgSrc, "product.png");
-//   let fileToShare = [productFile, clientFile];
-  
-// }
-
-// if (navigation.canShare && navigator.canShare({files:[file]})){
-//   setTimeout(async ()=>{
-//     try{
-//       await navigator.share({
-//         files: [file],
-//         text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
-//         title: "Order Image"
-//       })
-//     } catch (err) {}
-//   },500);
-// }
-
-//     }
-//   });
-// }
-
-
-
-
-// let imggrid = document.querySelector(".img-grid");
-// let previewbox = document.querySelector(".preview-box");
-// let clickedImgSrc = "";
-// imggrid.onclick = function(e) {
-//   if (e.target.tagName === 'IMG') {
-//     clickedImgSrc = e.target.src;
-//     // console.log("Mil gaya target image link:", clickedImgSrc);
-//     let previewImg = previewbox.querySelector("img");
-//     if (previewImg) { 
-//       previewImg.src = clickedImgSrc;
-//       previewbox.style.display = "block";
-//     }
-//   }
-// }
-
-
-
-// let btnk = document.getElementById("btnk");
-
-// btnk.addEventListener("click",function(){
-// let love = document.getElementById("love").value;
-// let message = document.getElementById("message").value;
-// let instruction = document.getElementById("instruction").value;
-
-// let finalText = `cUSTOMER:${love}/NMessage:${message}/NInstruction:${instruction}/NItem:${clickedImgSrc}/NmyFile? myFile.name:""`;
-// let myNumber = "919058116902";
-// let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
-
-// window.open(url, "-blank");
-// });
-// --- 1. Firebase Se Products Show Karna ---
-function show(categoryName) {
-    onValue(ref(db, "varshnay gallery"), (snapshot) => {
-        let product = document.getElementById("product");
-        product.innerHTML = "";
-        let data = snapshot.val();
-
-        for (let key in data) {
-            let item = data[key];
-            if (item.category === "sublimation") {
-                let img = document.createElement("img");
-                img.src = item.photo;
-                product.appendChild(img);
-            }
-        }
-    });
+function base64ToFile(base64, fileName){
+  let arr = base64.split(',');
+  let mime = arr[0].match(/:(.*?);/)[1];
+  let bstr = atob(arr[1]);
+  let n = bstr.length;
+  let u8arr = new Uint8Array(n);
+  while(n--){ u8arr[n] = bstr.charCodeAt(n);}
+  return new File([u8arr], fileName, {type:mime});
 }
-show("sublimation");
 
-// --- 2. State & Selection Variables ---
-const uploadArea = document.querySelector(".upload-box");
-const previewha = document.getElementById("previewha");
-const custid = document.getElementById("custid");
+async function sendBothPhotos(){
+  let productFile = base64ToFile(clickedImgSrc, "product.png");
+  let fileToShare = [productFile, clientFile];
+  
+}
 
-let myFile = null;         // Client ki single photo yahan save hogi
-let clickedImgSrc = "";    // Selected product ka Firebase link/Base64 yahan save hoga
+if (navigation.canShare && navigator.canShare({files:[file]})){
+  setTimeout(async ()=>{
+    try{
+      await navigator.share({
+        files: [file],
+        text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
+        title: "Order Image"
+      })
+    } catch (err) {}
+  },500);
+}
+
+    }
+  });
+}
+
+
+
 
 let imggrid = document.querySelector(".img-grid");
 let previewbox = document.querySelector(".preview-box");
-
-// Grid se product select karne par
-if (imggrid) {
-    imggrid.onclick = function(e) {
-        if (e.target.tagName === 'IMG') {
-            clickedImgSrc = e.target.src;
-            let previewImg = previewbox.querySelector("img");
-            if (previewImg) {
-                previewImg.src = clickedImgSrc;
-                previewbox.style.display = "block";
-            }
-        }
-    };
+let clickedImgSrc = "";
+imggrid.onclick = function(e) {
+  if (e.target.tagName === 'IMG') {
+    clickedImgSrc = e.target.src;
+    // console.log("Mil gaya target image link:", clickedImgSrc);
+    let previewImg = previewbox.querySelector("img");
+    if (previewImg) { 
+      previewImg.src = clickedImgSrc;
+      previewbox.style.display = "block";
+    }
+  }
 }
 
-// Client ki apni photo upload handle karne ka logic
-if (uploadArea) {
-    uploadArea.addEventListener('click', function() {
-        custid.click();
-    });
 
-    custid.addEventListener("change", (e) => {
-        // 100% FIXED: Yahan [0] lagana bilkul zaroori tha single file nikalne ke liye
-        if (e.target.files && e.target.files[0]) {
-            myFile = e.target.files[0]; // Sahi binary single file save ho gayi
 
-            let reader = new FileReader();
-            reader.onload = function(event) {
-                let previewImg = previewha.querySelector("img");
-                if (previewImg) {
-                    previewImg.src = event.target.result;
-                    previewha.style.display = "block";
-                }
-            };
-            reader.readAsDataURL(myFile);
-        }
-    });
-}
-
-// --- 3. ImgBB Upload & WhatsApp Integration ---
-const IMGBB_API_KEY = "20876e9045f9a8378ee8cd173670fe78E"; 
 let btnk = document.getElementById("btnk");
 
-// Safe upload function jo file ya URL dono ko handle karega
-async function uploadToImgBB(imageSource) {
-    let box = new FormData();
-    
-    // Agar input direct file object hai ya phir URL/Base64 string hai
-    if (typeof imageSource === "string" && imageSource.startsWith("data:image")) {
-        let base64Data = imageSource.split(",")[1]; // Safe clean base64 data string
-        box.append("image", base64Data);
-    } else {
-        box.append("image", imageSource); // Direct binary file object upload
-    }
-    
-    box.append("expiration", 3600); // 1 ghante mein automatic image delete ho jayegi
+btnk.addEventListener("click",function(){
+let love = document.getElementById("love").value;
+let message = document.getElementById("message").value;
+let instruction = document.getElementById("instruction").value;
 
-    let response = await fetch(`https://imgbb.com{IMGBB_API_KEY}`, {
-        method: "POST",
-        body: box
-    });        
-    
-    let result = await response.json();
-    if (result.success) {
-        return result.data.url; // ImgBB se mila HD web link
-    } else {
-        console.error("ImgBB Error Details:", result);
-        throw new Error(result.error ? result.error.message : "Upload error");
-    }
-}
+let finalText = `cUSTOMER:${love}/NMessage:${message}/NInstruction:${instruction}/NItem:${clickedImgSrc}/NmyFile? myFile.name:""`;
+let myNumber = "919058116902";
+let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
 
-// Order Button Click Action
-btnk.addEventListener("click", async function() {
-    let love = document.getElementById("love").value;
-    let message = document.getElementById("message").value;
-    let instruction = document.getElementById("instruction").value;
-
-    if (!clickedImgSrc || !myFile) {
-        alert("Pehle Gallery se Design select karein aur Apni Photo upload karein!");
-        return;
-    }
-
-    try {
-        btnk.innerText = "Uploading User Photo (1/2)...";
-        btnk.disabled = true;
-
-        // Step 1: User ki apni unique file ko ImgBB par upload karein
-        let userPhotoLink = await uploadToImgBB(myFile);
-
-        btnk.innerText = "Uploading Design (2/2)...";
-        
-        // Step 2: Selected design card image ko ImgBB par upload karein
-        let designPhotoLink = await uploadToImgBB(clickedImgSrc);
-
-        // Step 3: Beautiful format ke saath WhatsApp text generate karein
-        let myNumber = "91xxXXXXX"; // ⚠️ CODE CHALANE SE PEHLE YAHAN APNA REAL WHATSAPP NUMBER ZAROOR DAAL LEIN!
-        let message1 = `*📦 NEW ORDER RECEIVED*\n\n` +
-                       `*Love:* ${love}%\n` +
-                       `*Message:* ${message}\n` +
-                       `*Instruction:* ${instruction}\n\n` +
-                       `*Design ImgBB Link:* ${designPhotoLink}\n` +
-                       `*User ImgBB Photo:* ${userPhotoLink}`;
-
-        let url = `https://wa.me{myNumber}?text=${encodeURIComponent(message1)}`;
-        window.open(url, "_blank");
-
-    } catch (error) {
-        console.error("Upload Error:", error);
-        alert("Upload fail ho gaya! Kripya check karein ki aapki ImgBB API Key live hai ya internet issue hai.");
-    } finally {
-        btnk.innerText = "Send Order";
-        btnk.disabled = false;
-    }
+window.open(url, "-blank");
 });
