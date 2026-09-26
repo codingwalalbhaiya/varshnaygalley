@@ -684,7 +684,6 @@ window.addEventListener('click', function(event) {
 
 // window.open(url, "-blank");
 // });
-
 // --- 1. Firebase Se Products Show Karna ---
 function show(categoryName) {
     onValue(ref(db, "varshnay gallery"), (snapshot) => {
@@ -709,8 +708,8 @@ const uploadArea = document.querySelector(".upload-box");
 const previewha = document.getElementById("previewha");
 const custid = document.getElementById("custid");
 
-let myFile = null;         // Client raw image file store hogi yahan
-let clickedImgSrc = "";    // Product Selected URL / Base64
+let myFile = null;         // Client ki single photo yahan save hogi
+let clickedImgSrc = "";    // Selected product ka Firebase link/Base64 yahan save hoga
 
 let imggrid = document.querySelector(".img-grid");
 let previewbox = document.querySelector(".preview-box");
@@ -729,17 +728,16 @@ if (imggrid) {
     };
 }
 
-// Client ki apni photo upload handle karne ka fixed logic
+// Client ki apni photo upload handle karne ka logic
 if (uploadArea) {
     uploadArea.addEventListener('click', function() {
         custid.click();
     });
 
     custid.addEventListener("change", (e) => {
-        // FIXED: Array list se direct pehli single file [0] extract ki hai
-        let file = e.target.files[0]; 
-        if (file) {
-            myFile = file; // Ab sahi tarike se single file handle hogi
+        // 100% FIXED: Yahan [0] lagana bilkul zaroori tha single file nikalne ke liye
+        if (e.target.files && e.target.files[0]) {
+            myFile = e.target.files[0]; // Sahi binary single file save ho gayi
 
             let reader = new FileReader();
             reader.onload = function(event) {
@@ -749,7 +747,7 @@ if (uploadArea) {
                     previewha.style.display = "block";
                 }
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(myFile);
         }
     });
 }
@@ -758,19 +756,19 @@ if (uploadArea) {
 const IMGBB_API_KEY = "20876e9045f9a8378ee8cd173670fe78E"; 
 let btnk = document.getElementById("btnk");
 
-// Safe URL upload parsing function
+// Safe upload function jo file ya URL dono ko handle karega
 async function uploadToImgBB(imageSource) {
     let box = new FormData();
     
-    // Agar external Firebase URL ya direct base64 pass karein toh safe clean check
+    // Agar input direct file object hai ya phir URL/Base64 string hai
     if (typeof imageSource === "string" && imageSource.startsWith("data:image")) {
-        let base64Data = imageSource.split(",")[1];
+        let base64Data = imageSource.split(",")[1]; // Safe clean base64 data string
         box.append("image", base64Data);
     } else {
-        box.append("image", imageSource); 
+        box.append("image", imageSource); // Direct binary file object upload
     }
     
-    box.append("expiration", 3600); // Auto delete after 1 hour
+    box.append("expiration", 3600); // 1 ghante mein automatic image delete ho jayegi
 
     let response = await fetch(`https://imgbb.com{IMGBB_API_KEY}`, {
         method: "POST",
@@ -779,14 +777,14 @@ async function uploadToImgBB(imageSource) {
     
     let result = await response.json();
     if (result.success) {
-        return result.data.url;
+        return result.data.url; // ImgBB se mila HD web link
     } else {
-        console.error("ImgBB Server Error Details:", result);
+        console.error("ImgBB Error Details:", result);
         throw new Error(result.error ? result.error.message : "Upload error");
     }
 }
 
-// Order Button Action Trigger
+// Order Button Click Action
 btnk.addEventListener("click", async function() {
     let love = document.getElementById("love").value;
     let message = document.getElementById("message").value;
@@ -798,19 +796,19 @@ btnk.addEventListener("click", async function() {
     }
 
     try {
-        btnk.innerText = "Uploading Photos (1/2)...";
+        btnk.innerText = "Uploading User Photo (1/2)...";
         btnk.disabled = true;
 
-        // 1. Client ki upload ki hui single image link generate karein
+        // Step 1: User ki apni unique file ko ImgBB par upload karein
         let userPhotoLink = await uploadToImgBB(myFile);
 
         btnk.innerText = "Uploading Design (2/2)...";
         
-        // 2. Firebase target product logic link generate karein
+        // Step 2: Selected design card image ko ImgBB par upload karein
         let designPhotoLink = await uploadToImgBB(clickedImgSrc);
 
-        // 3. Perfect formatting structure WhatsApp text link creation
-        let myNumber = "91xxxxxxxxxx"; // Yahan apna original active WhatsApp number text daalein
+        // Step 3: Beautiful format ke saath WhatsApp text generate karein
+        let myNumber = "91xxXXXXX"; // ⚠️ CODE CHALANE SE PEHLE YAHAN APNA REAL WHATSAPP NUMBER ZAROOR DAAL LEIN!
         let message1 = `*📦 NEW ORDER RECEIVED*\n\n` +
                        `*Love:* ${love}%\n` +
                        `*Message:* ${message}\n` +
@@ -822,8 +820,8 @@ btnk.addEventListener("click", async function() {
         window.open(url, "_blank");
 
     } catch (error) {
-        console.error("Upload workflow blocked by:", error);
-        alert("Upload process block ho gaya! Kripya console check karein ya API Key check karein.");
+        console.error("Upload Error:", error);
+        alert("Upload fail ho gaya! Kripya check karein ki aapki ImgBB API Key live hai ya internet issue hai.");
     } finally {
         btnk.innerText = "Send Order";
         btnk.disabled = false;
