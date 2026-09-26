@@ -534,34 +534,35 @@ window.addEventListener('click', function(event) {
 
 
 
-let choose = document.getElementById("Choose-product");
-let bn = document.getElementById("banner7");
+// let choose = document.getElementById("Choose-product");
+// let bn = document.getElementById("banner7");
 
-choose.onclick = function(){
-  if(window.location.href.includes("shop.html")){
-    bn.scrollIntoView({behavior:"smooth",block:"start"});
-  }else{
-    window.location.href ="shop.html#banner7";
-  }
-}
+// choose.onclick = function(){
+//   if(window.location.href.includes("shop.html")){
+//     bn.scrollIntoView({behavior:"smooth",block:"start"});
+//   }else{
+//     window.location.href ="shop.html#banner7";
+//   }
+// }
 
-function showProduct(product){
-  let container = document.getElementById("banner7")
-  container.innerHTML = "";
+// function showProduct(product){
+//   let container = document.getElementById("banner7")
+//   container.innerHTML = "";
 
-  product.forEach((p) =>{
-    let card = document.createElement("div");
-    card.className = "products-card";
-    card.innerHTML = '<h4>${p.name || p.title}</4>';
-    container.appendChild(card);
-  });
+//   product.forEach((p) =>{
+//     let card = document.createElement("div");
+//     card.className = "products-card";
+//     card.innerHTML = '<h4>${p.name || p.title}</4>';
+//     container.appendChild(card);
+//   });
 
-  if(window.location.hash === "#banner7"){
-    setTimeout(() => {
-      container.scrollIntoView({behavior: "smooth",block: "start"});
-    }, 500);
-  }
-}
+//   if(window.location.hash === "#banner7"){
+//     setTimeout(() => {
+//       container.scrollIntoView({behavior: "smooth",block: "start"});
+//     }, 500);
+//   }
+// }
+
 
 
 
@@ -614,26 +615,9 @@ if (uploadArea) {
       }
     }
       reader.readAsDataURL(file);
-
-     
- 
-function base64ToFile(base64, fileName){
-  let arr = base64.split(',');
-  let mime = arr[0].match(/:(.*?);/)[1];
-  let bstr = atob(arr[1]);
-  let n = bstr.length;
-  let u8arr = new Uint8Array(n);
-  while(n--){ u8arr[n] = bstr.charCodeAt(n);}
-  return new File([u8arr], fileName, {type:mime});
-}
-
-async function sendBothPhotos(){
-  let productFile = base64ToFile(clickedImgSrc, "product.png");
-  let fileToShare = [productFile, clientFile];
-  
-}
-
       
+
+ 
 
 if (navigation.canShare && navigator.canShare({files:[file]})){
   setTimeout(async ()=>{
@@ -676,9 +660,9 @@ btnk.addEventListener("click",function(){
 let love = document.getElementById("love").value;
 let message = document.getElementById("message").value;
 let instruction = document.getElementById("instruction").value;
-//let finalText = `Love:${love}%0AMessage:${message}%0AInstruction:${instruction}%AItem:${clickedImgSrc}%AmyFile? myFile.name`;
-let finalText = `Love:${love}%0AMessage:${message}%0AInstruction:${instruction}%Amessage1`;
-let myNumber = "91xxxxxxxxxx";
+let finalText = `name:${love} Message:${message} Instruction:${instruction} Item:${clickedImgSrc} myFile? myFile.name`;
+let myNumber = "919058116902";
 let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
 window.open(url, "-blank");
 });
+
