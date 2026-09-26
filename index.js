@@ -654,15 +654,66 @@ imggrid.onclick = function(e) {
 
 
 
-let btnk = document.getElementById("btnk");
+// let btnk = document.getElementById("btnk");
 
-btnk.addEventListener("click",function(){
-let love = document.getElementById("love").value;
-let message = document.getElementById("message").value;
-let instruction = document.getElementById("instruction").value;
-let finalText = `name:${love} Message:${message} Instruction:${instruction} Item:${clickedImgSrc} myFile? myFile.name`;
+// btnk.addEventListener("click",function(){
+// let love = document.getElementById("love").value;
+// let message = document.getElementById("message").value;
+// let instruction = document.getElementById("instruction").value;
+// let finalText = `name:${love} Message:${message} Instruction:${instruction} Item:${clickedImgSrc} myFile? myFile.name`;
+// let myNumber = "919058116902";
+// let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
+// window.open(url, "-blank");
+// });
+
+
+
 let myNumber = "919058116902";
-let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
-window.open(url, "-blank");
-});
+let btnk = document.getElementById("btnk");
+let IMGBB_API_KEY = "9d6d26aad5be6a3b41c06479f7eb6089"; 
+
+btnk.addEventListener("click",async function(){
+  let love = document.getElementById("love").value;
+  let message = document.getElementById("message").value;
+  let instruction = document.getElementById("instruction").value;
+  let userPhotoLink = "Image Is Not Selected";
+  let productLink = clickedImgSrc;
+
+  if(clickedImgSrc.startsWith("data:image")){
+    let f = new FormData();
+    f.append("image", clickedImgSrc.split(",")[1]);
+    let r = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}&expiration=3600`, {
+            method: "POST",
+             body: f
+         });
+         let j = await r.json();
+         if(j.success) productLink = j.data.url;   
+  }
+
+  if(myFile){
+    try{
+    let box = new FormData();
+    box.append("image",myFile);
+     let res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}&expiration=3600`, {
+            method: "POST",
+             body: box
+         });   
+         let result = await res.json();
+         if(result.success){
+          userPhotoLink = result.data.url;
+         }
+         }catch(e){
+          //console.log(e);
+          //alert("pl" + e);
+         }
+  }
+
+  let finalText = `Love:${love}\nMessage:${message}\nInstruction:${instruction}\nProduct:${productLink}\nUser Photo:${userPhotoLink}`;
+  let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
+//console.log(url);
+//console.log(finalText);
+//alert(finalText);
+  window.open(url, "-blank");
+})
+
 
