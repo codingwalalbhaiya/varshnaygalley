@@ -566,122 +566,258 @@ window.addEventListener('click', function(event) {
 
 
 
-function show(categoryName){
+// function show(categoryName){
 
-onValue(ref(db, "varshnay gallery" ), (snapshot)=>{
-   let product = document.getElementById("product");
-   product.innerHTML = "";
-   let data = snapshot.val();
+// onValue(ref(db, "varshnay gallery" ), (snapshot)=>{
+//    let product = document.getElementById("product");
+//    product.innerHTML = "";
+//    let data = snapshot.val();
 
-   for (let key in data){
-    let item = data[key];
+//    for (let key in data){
+//     let item = data[key];
 
-    if(item.category === "sublimation"){
-      let img = document.createElement("img");
-      img.src = item.photo;     
+//     if(item.category === "sublimation"){
+//       let img = document.createElement("img");
+//       img.src = item.photo;     
 
-product.appendChild(img);
-    }
-  }
+// product.appendChild(img);
+//     }
+//   }
 
-})
-}
+// })
+// }
 
- show("sublimation")
-
-
-const uploadArea = document.querySelector(".upload-box");
-const previewha = document.getElementById("previewha");
-const custid = document.getElementById("custid");
-let myFile = null;
+//  show("sublimation")
 
 
-if (uploadArea) {
-    uploadArea.addEventListener('click', function() {
-      custid.click();
-    });
+// const uploadArea = document.querySelector(".upload-box");
+// const previewha = document.getElementById("previewha");
+// const custid = document.getElementById("custid");
+// let myFile = null;
 
-  custid.addEventListener("change", (e)=>{
-    let file = e.target.files[0];
-    if(file){
-      myFile = file;
 
-      let reader = new FileReader();
-      reader.onload = function(event){
-     let previewImg = previewha.querySelector("img");
-       if (previewImg) {
-        previewImg.src = event.target.result;
-        previewha.style.display = "block";
-      }
-    }
-      reader.readAsDataURL(file);
+// if (uploadArea) {
+//     uploadArea.addEventListener('click', function() {
+//       custid.click();
+//     });
+
+//   custid.addEventListener("change", (e)=>{
+//     let file = e.target.files[0];
+//     if(file){
+//       myFile = file;
+
+//       let reader = new FileReader();
+//       reader.onload = function(event){
+//      let previewImg = previewha.querySelector("img");
+//        if (previewImg) {
+//         previewImg.src = event.target.result;
+//         previewha.style.display = "block";
+//       }
+//     }
+//       reader.readAsDataURL(file);
       
 
 
  
-function base64ToFile(base64, fileName){
-  let arr = base64.split(',');
-  let mime = arr[0].match(/:(.*?);/)[1];
-  let bstr = atob(arr[1]);
-  let n = bstr.length;
-  let u8arr = new Uint8Array(n);
-  while(n--){ u8arr[n] = bstr.charCodeAt(n);}
-  return new File([u8arr], fileName, {type:mime});
-}
+// function base64ToFile(base64, fileName){
+//   let arr = base64.split(',');
+//   let mime = arr[0].match(/:(.*?);/)[1];
+//   let bstr = atob(arr[1]);
+//   let n = bstr.length;
+//   let u8arr = new Uint8Array(n);
+//   while(n--){ u8arr[n] = bstr.charCodeAt(n);}
+//   return new File([u8arr], fileName, {type:mime});
+// }
 
-async function sendBothPhotos(){
-  let productFile = base64ToFile(clickedImgSrc, "product.png");
-  let fileToShare = [productFile, clientFile];
+// async function sendBothPhotos(){
+//   let productFile = base64ToFile(clickedImgSrc, "product.png");
+//   let fileToShare = [productFile, clientFile];
   
+// }
+
+// if (navigation.canShare && navigator.canShare({files:[file]})){
+//   setTimeout(async ()=>{
+//     try{
+//       await navigator.share({
+//         files: [file],
+//         text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
+//         title: "Order Image"
+//       })
+//     } catch (err) {}
+//   },500);
+// }
+
+//     }
+//   });
+// }
+
+
+
+
+// let imggrid = document.querySelector(".img-grid");
+// let previewbox = document.querySelector(".preview-box");
+// let clickedImgSrc = "";
+// imggrid.onclick = function(e) {
+//   if (e.target.tagName === 'IMG') {
+//     clickedImgSrc = e.target.src;
+//     // console.log("Mil gaya target image link:", clickedImgSrc);
+//     let previewImg = previewbox.querySelector("img");
+//     if (previewImg) { 
+//       previewImg.src = clickedImgSrc;
+//       previewbox.style.display = "block";
+//     }
+//   }
+// }
+
+
+
+// let btnk = document.getElementById("btnk");
+
+// btnk.addEventListener("click",function(){
+// let love = document.getElementById("love").value;
+// let message = document.getElementById("message").value;
+// let instruction = document.getElementById("instruction").value;
+
+// let finalText = `cUSTOMER:${love}/NMessage:${message}/NInstruction:${instruction}/NItem:${clickedImgSrc}/NmyFile? myFile.name:""`;
+// let myNumber = "919058116902";
+// let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
+
+// window.open(url, "-blank");
+// });
+
+// --- 1. Firebase Se Products Show Karna ---
+function show(categoryName) {
+    onValue(ref(db, "varshnay gallery"), (snapshot) => {
+        let product = document.getElementById("product");
+        product.innerHTML = "";
+        let data = snapshot.val();
+
+        for (let key in data) {
+            let item = data[key];
+            if (item.category === "sublimation") {
+                let img = document.createElement("img");
+                img.src = item.photo;
+                product.appendChild(img);
+            }
+        }
+    });
 }
+show("sublimation");
 
-if (navigation.canShare && navigator.canShare({files:[file]})){
-  setTimeout(async ()=>{
-    try{
-      await navigator.share({
-        files: [file],
-        text: `Grid Image: ${localStorage.getItem("mySelectedImg") || ""}`,
-        title: "Order Image"
-      })
-    } catch (err) {}
-  },500);
-}
-
-    }
-  });
-}
-
-
-
+// --- 2. Variables aur Selections ---
+const uploadArea = document.querySelector(".upload-box");
+const previewha = document.getElementById("previewha");
+const custid = document.getElementById("custid");
+let myFile = null; // Ismein client ki photo save hogi
+let clickedImgSrc = ""; // Ismein selected product ka URL save hoga
 
 let imggrid = document.querySelector(".img-grid");
 let previewbox = document.querySelector(".preview-box");
-let clickedImgSrc = "";
-imggrid.onclick = function(e) {
-  if (e.target.tagName === 'IMG') {
-    clickedImgSrc = e.target.src;
-    // console.log("Mil gaya target image link:", clickedImgSrc);
-    let previewImg = previewbox.querySelector("img");
-    if (previewImg) { 
-      previewImg.src = clickedImgSrc;
-      previewbox.style.display = "block";
-    }
-  }
+
+// Grid se product select karne par
+if (imggrid) {
+    imggrid.onclick = function(e) {
+        if (e.target.tagName === 'IMG') {
+            clickedImgSrc = e.target.src;
+            let previewImg = previewbox.querySelector("img");
+            if (previewImg) {
+                previewImg.src = clickedImgSrc;
+                previewbox.style.display = "block";
+            }
+        }
+    };
 }
 
+// Client ki apni photo upload karne par
+if (uploadArea) {
+    uploadArea.addEventListener('click', function() {
+        custid.click();
+    });
 
+    custid.addEventListener("change", (e) => {
+        let file = e.target.files[0];
+        if (file) {
+            myFile = file;
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                let previewImg = previewha.querySelector("img");
+                if (previewImg) {
+                    previewImg.src = event.target.result;
+                    previewha.style.display = "block";
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
 
+// --- 3. ImgBB Upload & WhatsApp Order Logic ---
+const IMGBB_API_KEY = "20876e9045f9a8378ee8cd173670fe78E"; 
 let btnk = document.getElementById("btnk");
 
-btnk.addEventListener("click",function(){
-let love = document.getElementById("love").value;
-let message = document.getElementById("message").value;
-let instruction = document.getElementById("instruction").value;
+// Common function jo image/URL ko ImgBB link mein convert karega
+async function uploadToImgBB(imageSource) {
+    let box = new FormData();
+    box.append("image", imageSource); // Yeh file aur external URL dono accept karta hai
+    box.append("expiration", 3600);   // 1 ghante baad auto-delete (Safe Feature)
 
-let finalText = `cUSTOMER:${love}/NMessage:${message}/NInstruction:${instruction}/NItem:${clickedImgSrc}/NmyFile? myFile.name:""`;
-let myNumber = "919058116902";
-let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
+    let response = await fetch(`https://imgbb.com{IMGBB_API_KEY}`, {
+        method: "POST",
+        body: box
+    });        
+    
+    let result = await response.json();
+    if (result.success) {
+        return result.data.url; // HD URL return karega
+    } else {
+        throw new Error("ImgBB Upload Fail Ho Gaya");
+    }
+}
 
-window.open(url, "-blank");
+// Order Button Click hone par
+btnk.addEventListener("click", async function() {
+    let love = document.getElementById("love").value;
+    let message = document.getElementById("message").value;
+    let instruction = document.getElementById("instruction").value;
+
+    // Validation: Check karein dono photos hain ya nahi
+    if (!clickedImgSrc || !myFile) {
+        alert("Pehle Gallery se Design select karein aur Apni Photo upload karein!");
+        return;
+    }
+
+    try {
+        // UI updates taaki user ko lage process chal raha hai
+        btnk.innerText = "Uploading Photos (1/2)...";
+        btnk.disabled = true;
+
+        // 1. Client ki uploaded photo ImgBB par bhejen
+        let userPhotoLink = await uploadToImgBB(myFile);
+
+        btnk.innerText = "Uploading Design (2/2)...";
+        
+        // 2. Firebase product ki photo ImgBB par bhejen
+        let designPhotoLink = await uploadToImgBB(clickedImgSrc);
+
+        // 3. WhatsApp Message structure
+        let myNumber = "919058116902"; // Apna WhatsApp number code mein sahi se daalein
+        let message1 = `*📦 NEW ORDER RECEIVED*\n\n` +
+                       `*Love:* ${love}%\n` +
+                       `*Message:* ${message}\n` +
+                       `*Instruction:* ${instruction}\n\n` +
+                       `*Design ImgBB Link:* ${designPhotoLink}\n` +
+                       `*User ImgBB Photo:* ${userPhotoLink}`;
+
+        // 4. WhatsApp open karein safely URL encode karke
+        let url = `https://wa.me{myNumber}?text=${encodeURIComponent(message1)}`;
+        window.open(url, "_blank");
+
+    } catch (error) {
+        console.error(error);
+        alert("Photos upload nahi ho payin! Kripya internet check karein ya dobara koshish karein.");
+    } finally {
+        // Button ko wapas normal karein
+        btnk.innerText = "Send Order";
+        btnk.disabled = false;
+    }
 });
-
