@@ -704,12 +704,13 @@ function show(categoryName) {
 }
 show("sublimation");
 
-// --- 2. Variables aur Selections ---
+// --- 2. State & Selection Variables ---
 const uploadArea = document.querySelector(".upload-box");
 const previewha = document.getElementById("previewha");
 const custid = document.getElementById("custid");
-let myFile = null; // Ismein client ki photo save hogi
-let clickedImgSrc = ""; // Ismein selected product ka URL save hoga
+
+let myFile = null;         // Client raw image file store hogi yahan
+let clickedImgSrc = "";    // Product Selected URL / Base64
 
 let imggrid = document.querySelector(".img-grid");
 let previewbox = document.querySelector(".preview-box");
@@ -728,16 +729,18 @@ if (imggrid) {
     };
 }
 
-// Client ki apni photo upload karne par
+// Client ki apni photo upload handle karne ka fixed logic
 if (uploadArea) {
     uploadArea.addEventListener('click', function() {
         custid.click();
     });
 
     custid.addEventListener("change", (e) => {
-        let file = e.target.files[0];
+        // FIXED: Array list se direct pehli single file [0] extract ki hai
+        let file = e.target.files[0]; 
         if (file) {
-            myFile = file;
+            myFile = file; // Ab sahi tarike se single file handle hogi
+
             let reader = new FileReader();
             reader.onload = function(event) {
                 let previewImg = previewha.querySelector("img");
@@ -751,15 +754,23 @@ if (uploadArea) {
     });
 }
 
-// --- 3. ImgBB Upload & WhatsApp Order Logic ---
+// --- 3. ImgBB Upload & WhatsApp Integration ---
 const IMGBB_API_KEY = "20876e9045f9a8378ee8cd173670fe78E"; 
 let btnk = document.getElementById("btnk");
 
-// Common function jo image/URL ko ImgBB link mein convert karega
+// Safe URL upload parsing function
 async function uploadToImgBB(imageSource) {
     let box = new FormData();
-    box.append("image", imageSource); // Yeh file aur external URL dono accept karta hai
-    box.append("expiration", 3600);   // 1 ghante baad auto-delete (Safe Feature)
+    
+    // Agar external Firebase URL ya direct base64 pass karein toh safe clean check
+    if (typeof imageSource === "string" && imageSource.startsWith("data:image")) {
+        let base64Data = imageSource.split(",")[1];
+        box.append("image", base64Data);
+    } else {
+        box.append("image", imageSource); 
+    }
+    
+    box.append("expiration", 3600); // Auto delete after 1 hour
 
     let response = await fetch(`https://imgbb.com{IMGBB_API_KEY}`, {
         method: "POST",
@@ -768,39 +779,38 @@ async function uploadToImgBB(imageSource) {
     
     let result = await response.json();
     if (result.success) {
-        return result.data.url; // HD URL return karega
+        return result.data.url;
     } else {
-        throw new Error("ImgBB Upload Fail Ho Gaya");
+        console.error("ImgBB Server Error Details:", result);
+        throw new Error(result.error ? result.error.message : "Upload error");
     }
 }
 
-// Order Button Click hone par
+// Order Button Action Trigger
 btnk.addEventListener("click", async function() {
     let love = document.getElementById("love").value;
     let message = document.getElementById("message").value;
     let instruction = document.getElementById("instruction").value;
 
-    // Validation: Check karein dono photos hain ya nahi
     if (!clickedImgSrc || !myFile) {
         alert("Pehle Gallery se Design select karein aur Apni Photo upload karein!");
         return;
     }
 
     try {
-        // UI updates taaki user ko lage process chal raha hai
         btnk.innerText = "Uploading Photos (1/2)...";
         btnk.disabled = true;
 
-        // 1. Client ki uploaded photo ImgBB par bhejen
+        // 1. Client ki upload ki hui single image link generate karein
         let userPhotoLink = await uploadToImgBB(myFile);
 
         btnk.innerText = "Uploading Design (2/2)...";
         
-        // 2. Firebase product ki photo ImgBB par bhejen
+        // 2. Firebase target product logic link generate karein
         let designPhotoLink = await uploadToImgBB(clickedImgSrc);
 
-        // 3. WhatsApp Message structure
-        let myNumber = "919058116902"; // Apna WhatsApp number code mein sahi se daalein
+        // 3. Perfect formatting structure WhatsApp text link creation
+        let myNumber = "91xxxxxxxxxx"; // Yahan apna original active WhatsApp number text daalein
         let message1 = `*📦 NEW ORDER RECEIVED*\n\n` +
                        `*Love:* ${love}%\n` +
                        `*Message:* ${message}\n` +
@@ -808,15 +818,13 @@ btnk.addEventListener("click", async function() {
                        `*Design ImgBB Link:* ${designPhotoLink}\n` +
                        `*User ImgBB Photo:* ${userPhotoLink}`;
 
-        // 4. WhatsApp open karein safely URL encode karke
         let url = `https://wa.me{myNumber}?text=${encodeURIComponent(message1)}`;
         window.open(url, "_blank");
 
     } catch (error) {
-        console.error(error);
-        alert("Photos upload nahi ho payin! Kripya internet check karein ya dobara koshish karein.");
+        console.error("Upload workflow blocked by:", error);
+        alert("Upload process block ho gaya! Kripya console check karein ya API Key check karein.");
     } finally {
-        // Button ko wapas normal karein
         btnk.innerText = "Send Order";
         btnk.disabled = false;
     }
