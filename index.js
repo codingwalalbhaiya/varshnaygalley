@@ -652,7 +652,6 @@ imggrid.onclick = function(e) {
 }
 
 
-
 let btnk = document.getElementById("btnk");
 
 btnk.addEventListener("click",function(){
