@@ -635,7 +635,6 @@ if (navigation.canShare && navigator.canShare({files:[file]})){
 
 
 
-
 let imggrid = document.querySelector(".img-grid");
 let previewbox = document.querySelector(".preview-box");
 let clickedImgSrc = "";
