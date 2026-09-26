@@ -565,7 +565,6 @@ function showProduct(product){
 
 
 
-
 function show(categoryName){
 
 onValue(ref(db, "varshnay gallery" ), (snapshot)=>{
@@ -651,16 +650,16 @@ imggrid.onclick = function(e) {
 }
 
 
+
 let btnk = document.getElementById("btnk");
 
 btnk.addEventListener("click",function(){
 let love = document.getElementById("love").value;
 let message = document.getElementById("message").value;
 let instruction = document.getElementById("instruction").value;
-
-let finalText = `cUSTOMER:${love}/NMessage:${message}/NInstruction:${instruction}/NItem:${clickedImgSrc}/NmyFile? myFile.name:""`;
-let myNumber = "919058116902";
+//let finalText = `Love:${love}%0AMessage:${message}%0AInstruction:${instruction}%AItem:${clickedImgSrc}%AmyFile? myFile.name`;
+let finalText = `Love:${love}%0AMessage:${message}%0AInstruction:${instruction}%Amessage1`;
+let myNumber = "91xxxxxxxxxx";
 let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalText)}`;
-
 window.open(url, "-blank");
 });
